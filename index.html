@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockWave - Sistema de Gerenciamento de Estoque</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-waves">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="wave-path-light"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="wave-path-lighter"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="wave-path"></path>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="wave-icon">
+                        <svg class="wave-logo" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,25 Q20,10 40,25 T80,25 T120,25 T160,25 T200,25 V50 H0 Z" />
+                            <path d="M0,30 Q20,15 40,30 T80,30 T120,30 T160,30 T200,30 V50 H0 Z" />
+                            <path d="M0,35 Q20,20 40,35 T80,35 T120,35 T160,35 T200,35 V50 H0 Z" />
+                        </svg>
+                    </div>
+                    <h1 class="logo-text">StockWave</h1>
+                </div>
+                <!-- Botão Menu Mobile -->
+               
+                
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="produtos.html"><i class="fas fa-boxes"></i> Produtos</a></li>
+                        <li><a href="estoque.html"><i class="fas fa-warehouse"></i> Estoque</a></li>
+                        <li><a href="historico.html"><i class="fas fa-history"></i> Histórico</a></li>
+                        <li><a href="configuracoes.html" class="active"><i class="fas fa-cogs"></i> Configurações</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Abrir Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Visão Geral do Estoque</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-success" id="entryBtn">
+                        <i class="fas fa-plus-circle"></i> Entrada
+                    </button>
+                    <button class="btn btn-warning" id="exitBtn">
+                        <i class="fas fa-minus-circle"></i> Saída
+                    </button>
+                    <button class="btn btn-primary" id="addProductBtn">
+                        <i class="fas fa-box"></i> Novo Produto
+                    </button>
+                    <button class="btn" id="manageCategoriesBtn" style="background-color: #6a11cb; color: white;">
+                        <i class="fas fa-tags"></i> Categorias
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="card-title">Produtos em Estoque</div>
+                    <div class="card-value" id="totalProducts">0</div>
+                    <div class="card-trend"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="card-icon"><i class="fas fa-boxes"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="card-title">Valor Total</div>
+                    <div class="card-value" id="totalValueContainer">
+                        <span id="hiddenValue">R$ ******</span>
+                        <i class="fas fa-eye-slash" id="toggleVisibility"></i>
+                    </div>
+                    <div class="card-trend"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="card-title">Itens Baixo Estoque</div>
+                    <div class="card-value" id="lowStockItems">0</div>
+                    <div class="card-trend"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="card-title">Categorias</div>
+                    <div class="card-value" id="totalCategories">0</div>
+                    <div class="card-trend"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="card-icon"><i class="fas fa-tags"></i></div>
+                </div>
+            </div>
+            <div class="mobile-instruction">
+                <i class="fas fa-sync-alt fa-spin"></i> 
+                <p>Para visualizar a tabela completa, detalhes, ações e controles, (gire o dispositivo para a posição horizontal). Apenas o nome do produto é exibido no modo retrato.</p>
+            </div>
+            <!-- Products Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar produtos...">
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><center>Produto</center></th>
+                            <th><center>Categoria</center></th>
+                            <th><center>Quantidade</center></th>
+                            <th><center>Preço Unit.</center></th>
+                            <th><center>Status</center></th>
+                          
+                            <th><center>Saída Rápida</center></th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody id="productsTable">
+                        <!-- Produtos serão renderizados via JavaScript -->
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <button class="pagination-btn" id="prevPageBtn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="pagination-info" id="pageInfo">Página 1 de 1</span>
+                    <button class="pagination-btn" id="nextPageBtn" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+            </div>
+        
+          
+            
+            
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-history"></i> Histórico de Movimentações
+                    </h3>
+                    <div class="filter-options">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="entry">Entradas</button>
+                        <button class="filter-btn" data-filter="exit">Saídas</button>
+                        <button class="filter-btn" data-filter="delete">Exclusões</button>
+                    </div>
+                </div>
+                <div class="history-items" id="historyItems">
+                    <!-- Histórico será renderizado via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalProductTitle">Adicionar Novo Produto</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label for="productName">Nome do Produto</label>
+                        <input type="text" id="productName" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCategory">Categoria</label>
+                            <select id="productCategory" class="form-control" required>
+                                <option value="">Selecione uma categoria</option>
+                                <!-- Categorias serão preenchidas via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCode">Código</label>
+                            <input type="text" id="productCode" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productQuantity">Quantidade</label>
+                            <input type="number" id="productQuantity" class="form-control" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Preço Unitário (R$)</label>
+                            <input type="number" id="productPrice" class="form-control" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productMinStock">Estoque Mínimo</label>
+                            <input type="number" id="productMinStock" class="form-control" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDailyConsumption">Consumo Médio Diário</label>
+                            <input type="number" id="productDailyConsumption" class="form-control" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Descrição (Opcional)</label>
+                        <textarea id="productDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <input type="hidden" id="productId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelProductBtn">Cancelar</button>
+                <button class="btn btn-primary" id="saveProductBtn">Salvar Produto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movement Modal -->
+    <div class="modal" id="movementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalMovementTitle">Registrar Entrada</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="movementForm">
+                    <div class="form-group">
+                        <label for="movementProduct">Selecionar Produto</label>
+                        <select id="movementProduct" class="form-control" required>
+                            <!-- Produtos serão preenchidos via JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movementQuantity">Quantidade</label>
+                            <input type="number" id="movementQuantity" class="form-control" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="movementDate">Data</label>
+                            <input type="date" id="movementDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movementTime">Hora</label>
+                            <input type="time" id="movementTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Grupo para entrada -->
+                    <div id="entryNoteGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="entryReason">Motivo da Entrada</label>
+                            <select id="entryReason" class="form-control" required>
+                                <option value="">Selecione o motivo</option>
+                                <option value="Reestoque">Reestoque</option>
+                                <option value="Devolução">Devolução</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="movementNote">Notas (Opcional)</label>
+                            <textarea id="movementNote" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Grupo para saída -->
+                    <div id="exitReasonGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="movementReason">Motivo da Saída</label>
+                            <select id="movementReason" class="form-control" required>
+                                <option value="">Selecione o motivo</option>
+                                <option value="Venda">Venda</option>
+                                <option value="Perda">Perda de produto</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="lossDescriptionGroup" style="display: none;">
+                            <label for="lossDescription">Descrição da Perda (Opcional)</label>
+                            <textarea id="lossDescription" class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="movementType">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelMovementBtn">Cancelar</button>
+                <button class="btn btn-primary" id="saveMovementBtn">Registrar Movimento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-content category-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Gerenciar Categorias</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newCategoryName">Adicionar Nova Categoria</label>
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 3;">
+                            <input type="text" id="newCategoryName" class="form-control" placeholder="Ex: Eletrônicos, Alimentos...">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <button class="btn btn-primary" id="addCategoryBtn" style="width: 100%; height: 100%;">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Categorias Existentes</label>
+                    <div class="category-list" id="categoryList">
+                        <!-- Categorias serão preenchidas via JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="closeCategoryModalBtn">Fechar</button>
+            </div>
+        </div>
+    </div>
+    <!-- History Detail Modal -->
+<div class="modal" id="historyDetailModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Detalhes da Movimentação</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-group">
+                <label>Data e Hora:</label>
+                <div id="detailHistoryDateTime" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Tipo:</label>
+                <div id="detailHistoryType" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Produto:</label>
+                <div id="detailHistoryProduct" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Quantidade:</label>
+                <div id="detailHistoryQuantity" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Responsável:</label>
+                <div id="detailHistoryUser" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Motivo:</label>
+                <div id="detailHistoryReason" class="detail-value"></div>
+            </div>
+            <div class="detail-group">
+                <label>Notas:</label>
+                <div id="detailHistoryNote" class="detail-value"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" id="closeHistoryDetailModalBtn">Fechar</button>
+        </div>
+    </div>
+</div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-waves">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="wave-path-light"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="wave-path-lighter"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="wave-path"></path>
+            </svg>
+        </div>
+    
+        <div class="container">
+            <div class="footer-content">
+                
+                    2025 StockWave - Sistema de Gerenciamento de Estoque
+               
+    
+                <div class="footer-links">
+                  
+                    <a href="https://www.instagram.com/stockwave.gerenciamento/" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <!-- Toast Container -->
+    <div class="toast" id="toast"></div>
+    <script type="module" src="firebase.js"></script>
+    <script src="script.js"></script>
+ 
+
+</body>
+</html>

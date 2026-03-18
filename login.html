@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StockWave</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="login-page">
+
+    <!-- TOP WAVE -->
+    <div class="login-waves-top">
+        <svg viewBox="0 0 1200 120">
+            <path class="wave-path" d="M0,0V46.29c47.79,22.2,103.59,
+            32.17,158,28,70.36-5.37,136.33-33.31,
+            206.8-37.5C438.64,32.43,512.34,53.67,
+            583,72.05c69.27,18,138.3,24.88,
+            209.4,13.08,36.15-6,69.85-17.84,
+            104.45-29.34,92.64-30.24,216.15-69.53,
+            303.15-6.19V0Z"></path>
+        </svg>
+    </div>
+
+    <div class="login-box">
+
+        <h1 class="login-title">StockWave</h1>
+        <p class="login-subtitle">Entre para continuar</p>
+
+        <form id="emailLoginForm">
+
+            <div class="login-input-group">
+                <i class="fa fa-envelope"></i>
+                <input type="email" id="emailInput" placeholder="Seu e-mail" required>
+            </div>
+
+            <div class="login-input-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" id="passwordInput" placeholder="Sua senha" required>
+            </div>
+
+            <button class="login-btn login-btn-primary">Entrar</button>
+        </form>
+
+        <div class="login-divider">
+            <span>OU</span>
+        </div>
+
+        <button id="googleLoginBtn" class="login-btn login-btn-google">
+            <i class="fab fa-google"></i> Entrar com Google
+        </button>
+
+    </div>
+
+    <!-- BOTTOM WAVE -->
+    <div class="login-waves-bottom">
+        <svg viewBox="0 0 1200 120">
+            <path class="wave-path" d="M0,0V46.29c47.79,22.2,103.59,
+            32.17,158,28,70.36-5.37,136.33-33.31,
+            206.8-37.5C438.64,32.43,512.34,53.67,
+            583,72.05c69.27,18,138.3,24.88,
+            209.4,13.08,36.15-6,69.85-17.84,
+            104.45-29.34,92.64-30.24,216.15-69.53,
+            303.15-6.19V0Z"></path>
+        </svg>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module" src="firebase.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
