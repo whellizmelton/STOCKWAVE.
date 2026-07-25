@@ -1,238 +1,174 @@
-# StockWave - Sistema de Gerenciamento de Estoque v2.0.0
+# StockWave — Sistema de Gerenciamento de Estoque
 
-Sistema multi-tenant de gerenciamento de estoque com backend PHP e frontend JavaScript vanilla.
+## Visão geral
 
-## 📋 Pré-requisitos
+StockWave é um sistema **multi-tenant** (multi-empresa) de gerenciamento de
+estoque, com backend em **PHP puro (PSR-4)** + **MySQL/PDO** e frontend em
+**HTML/CSS/JavaScript vanilla**.
 
-- XAMPP (Apache + MySQL + PHP)
-- PHP 8.0 ou superior
-- MySQL 5.7 ou superior
+Cada empresa cadastrada (`empresas`) possui seus próprios usuários, produtos,
+categorias e movimentações, isolados por `empresa_id`.
+
+### Principais funcionalidades
+
+- Cadastro de produtos e categorias
+- Entrada e saída de estoque (movimentações), com atualização automática de quantidade
+- Histórico de movimentações com filtros
+- Dashboard com indicadores (produtos, valor total, itens em baixo estoque, categorias)
+- Autenticação por sessão PHP, com proteção CSRF e bloqueio por tentativas de login (brute force)
+- Sistema de roles/permissões (RBAC) por empresa
+- Auditoria de ações (`audit_logs`)
+- Registro público de nova empresa + usuário administrador
+- Modo de desenvolvimento local (`LOCAL_MODE`) que dispensa autenticação
+
+## Tecnologias utilizadas
+
+| Camada       | Tecnologia                          |
+|--------------|--------------------------------------|
+| Backend      | PHP 8+, PDO, autoload PSR-4 manual   |
+| Banco        | MySQL 5.7+                           |
+| Frontend     | HTML5, CSS3, JavaScript (vanilla)    |
+| Ícones/fonte | Font Awesome 6.4 (CDN), Google Fonts (Poppins) |
+| Exportação   | SheetJS/xlsx (CDN)                   |
+
+Não há framework de frontend (React/Vue) nem framework PHP (Laravel/Symfony):
+a estrutura `App/*` é uma organização própria, inspirada em MVC.
+
+## Requisitos
+
+- PHP 8.0+
+- MySQL 5.7+ (ou MariaDB compatível)
+- Apache com `mod_rewrite` habilitado (XAMPP recomendado em ambiente local)
 - Navegador moderno (Chrome, Firefox, Edge)
 
-## Inicialização do Projeto
+## Como rodar localmente
 
-### 1. Configurar o Banco de Dados
-
-#### Opção A: Via phpMyAdmin
-1. Acesse `http://localhost/phpmyadmin`
-2. Clique na aba "Importar"
-3. Selecione o arquivo `full_setup.sql`
-4. Clique em "Executar"
-
-#### Opção B: Via linha de comando (MySQL)
 ```bash
-# No Windows, via prompt do XAMPP:
-cd C:\xampp\mysql\bin
-mysql -u root -p < c:\xampp\htdocs\stockwave\full_setup.sql
+# 1. Clonar/copiar o projeto para o htdocs do XAMPP
+cd C:\xampp\htdocs\stockwave
+
+# 2. Criar o banco de dados
+#    Opção A - phpMyAdmin: importe database/full_setup.sql
+#    Opção B - linha de comando:
+mysql -u root -p < database/full_setup.sql
 ```
 
-### 2. Verificar Configurações
+Verifique/ajuste as credenciais do banco em `config/configuracoes.php`:
 
-Edite o arquivo `config/configuracoes.php` se necessário:
 ```php
 define("DB_HOST","localhost");
 define("DB_USER","root");
-define("DB_PASSWORD","");  // Altere se tiver senha
+define("DB_PASSWORD","");
 define("DB_NAME","stockwave");
 ```
 
-### 3. Instalar Dependências PHP
+Confirme o modo de execução em `config/app.php` (veja `docs/LOCAL_MODE.md`):
 
-O projeto usa Firebase JWT via Composer. Execute no terminal:
-```bash
-cd c:\xampp\htdocs\stockwave
-composer install
+```php
+define('LOCAL_MODE', true);
+define('CURRENT_COMPANY_ID', 1);
+define('CURRENT_USER_ID', 1);
 ```
 
-Se não tiver Composer:
-```bash
-# Baixe o Composer
-# Ou use o instalador: https://getcomposer.org/download/
-```
+Inicie o Apache/MySQL pelo XAMPP e acesse:
 
-### 4. Configurar Apache
-
-O `.htaccess` já está configurado. Verifique se:
-- O módulo `mod_rewrite` está habilitado no Apache
-- O `AllowOverride` está configurado como `All` no httpd.conf
-
-### 5. Acessar o Sistema
-
-Abra o navegador:
 ```
 http://localhost/stockwave/public/
 ```
 
-## Criar uma Nova Empresa
+> ⚠️ As telas em `public/*.html` chamam `authIntegration.checkSession()` no
+> carregamento e redirecionam para `public/auth/login.html` se não houver
+> sessão — **mesmo com `LOCAL_MODE` ativo no backend**. Para testar sem
+> login, é necessário autenticar-se ao menos uma vez pela tela de login,
+> pois o backend em `LOCAL_MODE` aceita a requisição de login sem exigir
+> verificação de e-mail (`SKIP_EMAIL_VERIFICATION`).
 
-### Via Interface (Recomendado)
+### Credenciais de acesso (dados de seed)
 
-1. Acesse `http://localhost/stockwave/public/login.html`
-2. Clique em "Criar nova empresa"
-3. Preencha os dados:
-   - **Nome da Empresa**: Razão social
-   - **Nome Fantasia**: Nome comercial
-   - **CNPJ**: 14 dígitos numéricos
-   - **Email**: E-mail de contato
-   - **Telefone**: (opcional)
-   - **Endereço**: (opcional)
-4. Clique em "Registrar"
+O script `database/full_setup.sql` cria a empresa "Empresa Exemplo LTDA"
+(`StockWave Demo`, id `1`) com o usuário administrador:
 
-O sistema criará automaticamente:
-- A empresa no banco de dados
-- Um usuário administrador com credenciais padrão
+- **E-mail:** `admin@stockwave.local`
+- **Senha:** `password`
 
-### Credenciais Padrão da Nova Empresa
+> Existe uma divergência entre o `README.md` original do projeto (que cita
+> `admin@exemplo.com` / `Admin@123`) e o seed real em
+> `database/full_setup.sql` (`admin@stockwave.local` / `password`). Use
+> sempre o que está no `full_setup.sql`, que é a fonte da verdade do banco.
 
-Após criar a empresa, você receberá:
-- **Email do Admin**: `admin@nomedaempresa.com`
-- **Senha Padrão**: `Admin@123`
-
-**⚠️ IMPORTANTE:** Altere a senha no primeiro login!
-
-### Via API (Programático)
-
-```bash
-curl -X POST "http://localhost/stockwave/api.php?endpoint=empresas&action=register" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Minha Empresa LTDA",
-    "nome_fantasia": "Minha Empresa",
-    "cnpj": "12345678000190",
-    "email": "contato@minhaempresa.com",
-    "telefone": "(11) 99999-9999",
-    "endereco": "Rua Exemplo, 123",
-    "admin_nome": "Nome do Admin",
-    "admin_email": "admin@minhaempresa.com",
-    "admin_senha": "SenhaForte123"
-  }'
-```
-
-## Login no Sistema
-
-1. Acesse `http://localhost/stockwave/public/login.html`
-2. Entre com as credenciais:
-   - Email do admin da empresa
-   - Senha
-3. O sistema gerará um token JWT e redirecionará para o dashboard
-
-## Estrutura do Projeto
+## Estrutura resumida do projeto
 
 ```
 stockwave/
-├── app/                    # Nova arquitetura (PSR-4)
-│   ├── Controllers/        # Controllers modernos
-│   ├── Core/              # Database singleton
-│   └── Middleware/        # Auth & CSRF
-├── config/                # Configurações
-│   ├── configuracoes.php   # Configurações gerais
-│   └── database.php       # Conexão MySQL
-├── controllers/           # Controllers legados
-├── models/                # Models de dados
-├── routes/                # Rotas da API
-├── helpers/               # Helpers (JWT, Audit, etc.)
-├── public/                # Frontend
-│   ├── index.html         # Dashboard
-│   ├── login.html         # Login
-│   ├── produtos.html      # Produtos
-│   ├── estoque.html       # Estoque
-│   ├── historico.html     # Histórico
-│   ├── configuracoes.html # Configurações
-│   ├── script.js          # Lógica frontend
-│   ├── apiClient.js       # Cliente HTTP
-│   └── style.css          # Estilos
-├── create_database.sql    # Schema do banco
-└── index.php              # Entry point da API
+├── api.php                 # Entry point único da API (?endpoint=xxx)
+├── bootstrap.php           # Autoload + sessão + contexto de tenant
+├── .htaccess                # Rewrite para /api/{endpoint}
+├── config/
+│   ├── configuracoes.php    # Config de banco, segurança, app
+│   └── app.php               # LOCAL_MODE e constantes de dev
+├── app/                      # Código PSR-4 (App\...)
+│   ├── Auth/
+│   ├── Controllers/
+│   ├── Core/
+│   ├── Helpers/
+│   ├── Http/
+│   ├── Middleware/
+│   └── Models/
+├── routes/                   # Um arquivo de rotas por endpoint
+├── helpers/response.php      # jsonResponse() legado, usado em todo o projeto
+├── database/full_setup.sql   # Schema completo + dados de exemplo
+├── public/                   # Frontend
+│   ├── *.html                # Páginas (index, produtos, estoque, historico, configuracoes)
+│   ├── auth/                 # login.html, register.html, auth.js
+│   ├── style.css             # Agrega public/css/*.css
+│   ├── apiClient.js          # Cliente HTTP usado pelas páginas atuais
+│   ├── appIntegration.js     # Camada de abstração API/localStorage
+│   ├── script.js             # Lógica das páginas (monolítico)
+│   └── js/
+│       ├── core/              # config.js, utils.js, api.js, events.js (módulo em migração)
+│       ├── components/        # toast.js, modal.js
+│       ├── services/          # produtoService.js, categoriaService.js, movimentacaoService.js
+│       └── authClient.js / authIntegration.js
+└── docs/                      # Esta documentação
 ```
 
-## MIGRAÇÃO DE CONTROLLERS E INTEGRAÇÃO COM API
+Veja `docs/ESTRUTURA_DE_PASTAS.md` para o detalhamento pasta a pasta.
 
-### Controllers Migrados
-- ✅ Rotas atualizadas para usar `config/database.php` e `helpers/response.php`
-- ✅ Criado `helpers/PasswordController.php` para hash de senhas
-- ✅ Senha do usuário admin atualizada para funcionar com password_verify
-- ✅ AuthController: Login usa controller legado, outros endpoints usam nova estrutura
-- ✅ ProdutoController, MovimentacaoController, CategoriaController funcionais
-- ✅ EmpresaController funcional
+## Como acessar a API
 
-### Integração Frontend ↔ Backend
-- ✅ Criado `public/apiClient.js` - Cliente HTTP com suporte a api.php direto
-- ✅ Criado `public/appIntegration.js` - Camada de abstração entre localStorage e API
-- ✅ Criado `public/api.php` - Router direto sem depender do .htaccess
-- ✅ Criado `public/script-api-migration-guide.js` - Guia de migração
-- ✅ apiClient.js atualizado para usar api.php (useDirectAPI = true)
-- ✅ Todos os arquivos HTML incluem apiClient.js e appIntegration.js
+Todas as chamadas passam por `public/api.php` (ou `api.php` na raiz) com o
+parâmetro `endpoint`:
 
-### Banco de Dados
-- ✅ Banco `stockwave` criado
-- ✅ 9 tabelas criadas com sucesso
-- ✅ Dados de exemplo inseridos
-- ✅ Senha do usuário admin atualizada para funcionar
-
-### Como Usar a Integração no script.js
-1. Substituir chamadas de `localStorage.getItem()` por `await appIntegration.loadProducts()`
-2. Substituir chamadas de `localStorage.setItem()` por `await appIntegration.saveProduct()`
-3. Tornar funções assíncronas com `async/await`
-4. Usar try/catch para tratar erros de API
-5. Recarregar dados após operações de escrita
-
-**Exemplo:**
-```javascript
-// Antes:
-products = JSON.parse(localStorage.getItem('stockwave_products')) || [];
-
-// Depois:
-products = await appIntegration.loadProducts();
+```
+GET  /stockwave/api.php?endpoint=produtos
+POST /stockwave/api.php?endpoint=produtos
+GET  /stockwave/api.php?endpoint=movimentacoes&page=1&limit=50
+POST /stockwave/api.php?endpoint=auth&action=login
 ```
 
-Veja `script-api-migration-guide.js` para exemplos completos de migração.
+Veja a lista completa em `docs/API.md`.
 
-### Próximos Passos para Integração Completa
-1. Modificar `script.js` para usar `appIntegration` em vez de localStorage
-2. Testar todas as operações CRUD com a API
-3. Remover dependência de localStorage após validação completa
-4. Migrar completamente para controllers em `app/Controllers/`
+## Modo de desenvolvimento (LOCAL_MODE)
 
-### Credenciais de Acesso
-- **Email:** admin@exemplo.com
-- **Senha:** Admin@123
-- **Empresa:** StockWave Demo (ID: 1)
+Em `config/app.php`, `LOCAL_MODE=true` faz o backend:
 
-## �🔧 Solução de Problemas
+- Ignorar a exigência de autenticação (`AuthMiddleware`, `AuthManager::requireAuth`)
+- Ignorar a exigência de permissões (`PermissionMiddleware`, `AuthManager::requirePermission`)
+- Usar `CURRENT_COMPANY_ID` e `CURRENT_USER_ID` como contexto fixo de tenant/usuário
 
-### Banco de dados não conecta
-- Verifique se o MySQL está rodando no XAMPP
-- Confirme as credenciais em `config/configuracoes.php`
-- Teste a conexão via phpMyAdmin
+Veja o detalhamento completo, incluindo cuidados para produção, em
+`docs/LOCAL_MODE.md`.
 
-### Erro 404 nas rotas da API
-- Verifique se o `mod_rewrite` está habilitado no Apache
-- Confirme se o `.htaccess` está sendo lido
-- Verifique o `AllowOverride All` no httpd.conf
+## Documentação completa
 
-### Erro 500 no login
-- Verifique os logs em `logs/debug.log` ou `logs/error.log`
-- Confirme se a tabela `usuarios` existe
-- Verifique se a dependência Firebase JWT foi instalada
-
-### Frontend não carrega
-- Verifique se o caminho no navegador está correto
-- Confirme se os arquivos CSS/JS estão sendo carregados
-- Verifique o console do navegador para erros
-
-## Dados de Exemplo
-
-O banco de dados já vem com dados de exemplo:
-- **Empresa**: Empresa Exemplo LTDA
-- **Usuário Admin**: admin@exemplo.com / Admin@123
-- **Categorias**: Alimentos, Bebidas, Limpeza, Eletrônicos
-- **Produtos**: 4 produtos de exemplo
-
-## Segurança
-
-- Tokens JWT com expiração de 1 hora
-- Proteção CSRF em requisições de escrita
-- Rate limiting no login (5 tentativas em 15 min)
-- Isolamento multi-tenant obrigatório
-- Auditoria completa de ações
-- Soft delete em produtos
+| Documento | Conteúdo |
+|---|---|
+| `docs/ARQUITETURA.md` | Fluxo de requisição, camadas, multi-tenant, autenticação |
+| `docs/ESTRUTURA_DE_PASTAS.md` | O que existe em cada pasta |
+| `docs/FRONTEND.md` | Módulos JS/CSS, como adicionar página/service |
+| `docs/BACKEND.md` | Como criar rota/controller/model, helpers disponíveis |
+| `docs/BANCO_DE_DADOS.md` | Tabelas, relacionamentos, índices, soft delete, auditoria |
+| `docs/API.md` | Todos os endpoints documentados |
+| `docs/LOCAL_MODE.md` | O que o LOCAL_MODE ativa/ignora |
+| `docs/GUIA_PARA_NOVOS_DEVS.md` | Onboarding e "onde mexer" |
+| `docs/MAPA_RAPIDO.md` | Tabela "quero alterar X → arquivo Y" |
