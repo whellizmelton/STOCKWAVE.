@@ -1,0 +1,189 @@
+/* PAGINA INICIAL*/
+ :root {
+    /* — cores fixas (todas as páginas, modo claro) — */
+    --primary-blue:      #1a73e8;    /* cor primária padrão (azul) */
+    --primary-hover:     #1666c3;    /* tom levemente mais escuro do primário */
+    --dark-blue:         #0d47a1;    /* usado se algum componente usar degradê, mas não precisamos */
+  
+    /* — light-shades para cada tema em “modo claro” — */
+    --light-blue:        #e3f2fd;    /* fundo azul clarinho (padrão) */
+    --light-green:       #e6f4ea;    /* fundo verde clarinho (tema VERDE) */
+    --light-purple:      #f3e5f5;    /* fundo roxo clarinho (tema ROXO) */
+    --light-red:         #fdecea;    /* fundo vermelho clarinho (tema VERMELHO) */
+  
+    /* — fundo principal (modo CLARO) — */
+    --background-color:  var(--light-blue);
+  
+    /* — cor de destaque interno (cards, modais, tabelas) em modo CLARO — */
+    --secondary-color:   var(--white);
+  
+    /* — texto padrão em modo CLARO — */
+    --text-color:        var(--text-dark);
+  
+    /* — bordas em modo CLARO — */
+    --border-color:      var(--medium-gray);
+  
+    /* — outras variáveis de suporte — */
+    --white:             #ffffff;
+    --light-gray:        #f5f5f5;
+    --medium-gray:       #e0e0e0;
+    --text-dark:         #333333;
+    --text-light:        #777777;
+    --success:           #4caf50;
+    --warning:           #ff9800;
+    --danger:            #f44336;
+    --critical:          #9c27b0;
+    --shadow:            0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition:        all 0.3s ease;
+
+    --google-blue: #4285F4;
+    --google-blue-hover: #357ABD;
+    --login-bg: #f5f7fa;
+  }
+  
+  /* ============================
+     2) BLOCO ÚNICO: MODO ESCURO
+     ============================ */
+  body.dark-mode {
+    /* — cores principais (podem ficar iguais ao modo claro) — */
+    --primary-blue:      #1a73e8;
+    --primary-hover:     #1666c3;
+  
+    /* — fundo geral em modo ESCURO — */
+    --background-color:  #121212;
+  
+    /* — texto em modo ESCURO (claro) — */
+    --text-color:        #f0f0f0;
+  
+    /* — cor de destaque (cards/tabelas/modais) em modo ESCURO — */
+    --secondary-color:   #2d2d2d;
+  
+    /* — bordas em modo ESCURO — */
+    --border-color:      #444444;
+     /* NOVAS VARIÁVEIS PARA CORREÇÃO */
+     --secondary-bg: #1e1e1e; /* Fundo para cards, tabelas, etc. */
+     --tertiary-bg: #2a2a2a;  /* Fundo para elementos secundários */
+     --text-muted: #b0b0b0;   /* Texto menos importante */
+     --border-dark: #444;     /* Bordas mais escuras */
+     
+     /* Ajuste de cores específicas */
+     --light-gray: #333;
+     --medium-gray: #555;
+  }
+  
+  /* ==================================================
+     3) BLOCO ÚNICO: TEMAS DE COR (modo CLARO e ESCURO)
+     ================================================== */
+  /* — TEMA VERDE — */
+  body.theme-green:not(.dark-mode) {
+    --primary-blue:      #28a745;         /* cor primária verde */
+    --primary-hover:     #218838;         /* hover verde escuro */
+    --background-color:  var(--light-green); /* fundo verde clarinho em modo claro */
+  }
+  body.theme-green.dark-mode {
+    --primary-blue:      #28a745;
+    --primary-hover:     #218838;
+    /* não mudamos --background-color aqui porque em dark mode ele já é #121212 */
+  }
+  
+  /* — TEMA ROXO — */
+  body.theme-purple:not(.dark-mode) {
+    --primary-blue:      #6f42c1;           /* cor primária roxa */
+    --primary-hover:     #5a32a3;           /* hover roxo mais escuro */
+    --background-color:  var(--light-purple); /* fundo roxo clarinho em modo claro */
+  }
+  body.theme-purple.dark-mode {
+    --primary-blue:      #6f42c1;
+    --primary-hover:     #5a32a3;
+  }
+  
+  /* — TEMA VERMELHO — */
+  body.theme-red:not(.dark-mode) {
+    --primary-blue:      #dc3545;          /* cor primária vermelha */
+    --primary-hover:     #c82333;          /* hover vermelho escuro */
+    --background-color:  var(--light-red);  /* fundo vermelho clarinho em modo claro */
+  }
+  body.theme-red.dark-mode {
+    --primary-blue:      #dc3545;
+    --primary-hover:     #c82333;
+  }
+/* — TEMA ROSA (SUAVE) — */
+body.theme-pink:not(.dark-mode) {
+    --primary-blue: #f48fb1;      /* rosa suave */
+    --primary-hover: #ec407a;     /* rosa moderado */
+    --background-color: #fde7ef;  /* fundo rosa pastel */
+}
+body.theme-pink.dark-mode {
+    --primary-blue: #f06292;
+    --primary-hover: #ec407a;
+}
+
+/* — TEMA AMARELO (REAL) — */
+body.theme-yellow:not(.dark-mode) {
+    --primary-blue: #ffd600;      /* amarelo forte */
+    --primary-hover: #ffca28;     /* dourado mais quente */
+    --background-color: #fff9c4;  /* amarelo clarinho */
+}
+body.theme-yellow.dark-mode {
+    --primary-blue: #ffd600;
+    --primary-hover: #ffca28;
+}
+
+/* — TEMA LARANJA (FORTE) — */
+body.theme-orange:not(.dark-mode) {
+    --primary-blue: #ff6f00;      /* laranja bem forte */
+    --primary-hover: #e65100;     /* laranja escuro */
+    --background-color: #ffe0b2;  /* suave porém claramente laranja */
+}
+body.theme-orange.dark-mode {
+    --primary-blue: #ff6f00;
+    --primary-hover: #e65100;
+}
+
+/* — TEMA PRETO — */
+body.theme-black:not(.dark-mode) {
+    --primary-blue: #000000;
+    --primary-hover: #222222;
+    --background-color: #e0e0e0;
+}
+body.theme-black.dark-mode {
+    --primary-blue: #000000;
+    --primary-hover: #222222;
+}
+/* — TEMA CINZA PRATA (Silver Blue) — */
+body.theme-gray:not(.dark-mode) {
+    --primary-blue: #90a4ae;         /* Cinza-azulado elegante */
+    --primary-hover: #78909c;        /* Tom mais escuro e profundo */
+    --background-color: #e9edf1;     /* Fundo prata-azulado suave */
+    --secondary-color: #f5f7fa;      /* Cartões bem claros estilo "alumínio" */
+}
+
+body.theme-gray.dark-mode {
+    --primary-blue: #90a4ae;
+    --primary-hover: #78909c;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color:            var(--text-color);
+    line-height:      1.6;
+    min-height:       100vh;
+    display:          flex;
+    flex-direction:   column;
+  }
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+

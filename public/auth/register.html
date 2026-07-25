@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - StockWave</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --error: #ef4444;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        .register-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .register-header .logo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .register-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        .register-body {
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group label .required {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #fff;
+        }
+
+        .form-control::placeholder {
+            color: #b0bec5;
+        }
+
+        .form-control.error {
+            border-color: var(--error);
+        }
+
+        .field-error {
+            font-size: 0.78rem;
+            color: var(--error);
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .password-wrapper .toggle-pw:hover {
+            color: var(--primary);
+        }
+
+        .password-strength {
+            margin-top: 0.4rem;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s, background 0.3s;
+            width: 0%;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            color: var(--text-light);
+        }
+
+        .alert {
+            padding: 0.9rem 1.1rem;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            display: none;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .register-footer {
+            text-align: center;
+            padding: 1.2rem 2rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .register-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .spin {
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 540px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .register-body {
+                padding: 1.5rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-wrapper">
+        <div class="register-card">
+            <div class="register-header">
+                <div class="logo-icon"><i class="fas fa-wave-square"></i></div>
+                <h1><i class="fas fa-boxes"></i> StockWave</h1>
+                <p>Crie sua empresa e comece a gerenciar seu estoque</p>
+            </div>
+
+            <div class="register-body">
+                <div id="alertBox" class="alert"></div>
+
+                <form id="registerForm" novalidate>
+                    <!-- Dados da Empresa -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-building"></i> Dados da Empresa
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label for="empresa_nome">Razão Social <span class="required">*</span></label>
+                                <input type="text" id="empresa_nome" class="form-control" placeholder="Ex: Minha Empresa LTDA" required>
+                                <div class="field-error" id="err_empresa_nome"></div>
+                            </div>
+                            <div class="form-group full">
+                                <label for="empresa_nome_fantasia">Nome Fantasia <span class="required">*</span></label>
+                                <input type="text" id="empresa_nome_fantasia" class="form-control" placeholder="Ex: Minha Loja" required>
+                                <div class="field-error" id="err_empresa_nome_fantasia"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa_cnpj">CNPJ <span class="required">*</span></label>
+                                <input type="text" id="empresa_cnpj" class="form-control" placeholder="00.000.000/0000-00" maxlength="18" required>
+                                <div class="field-error" id="err_empresa_cnpj"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa_email">Email da Empresa <span class="required">*</span></label>
+                                <input type="email" id="empresa_email" class="form-control" placeholder="contato@empresa.com" required>
+                                <div class="field-error" id="err_empresa_email"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa_telefone">Telefone</label>
+                                <input type="text" id="empresa_telefone" class="form-control" placeholder="(00) 00000-0000" maxlength="16">
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa_endereco">Endereço</label>
+                                <input type="text" id="empresa_endereco" class="form-control" placeholder="Rua, número, cidade">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados do Administrador -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-user-shield"></i> Administrador da Conta
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label for="admin_nome">Nome Completo <span class="required">*</span></label>
+                                <input type="text" id="admin_nome" class="form-control" placeholder="Seu nome completo" required>
+                                <div class="field-error" id="err_admin_nome"></div>
+                            </div>
+                            <div class="form-group full">
+                                <label for="admin_email">Email de Acesso <span class="required">*</span></label>
+                                <input type="email" id="admin_email" class="form-control" placeholder="seuemail@exemplo.com" required>
+                                <div class="field-error" id="err_admin_email"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin_senha">Senha <span class="required">*</span></label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="admin_senha" class="form-control" placeholder="Mínimo 8 caracteres" required>
+                                    <button type="button" class="toggle-pw" onclick="togglePassword('admin_senha', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="password-strength-bar" id="strengthBar"></div>
+                                </div>
+                                <div class="strength-text" id="strengthText"></div>
+                                <div class="field-error" id="err_admin_senha"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin_senha_confirm">Confirmar Senha <span class="required">*</span></label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="admin_senha_confirm" class="form-control" placeholder="Repita a senha" required>
+                                    <button type="button" class="toggle-pw" onclick="togglePassword('admin_senha_confirm', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="field-error" id="err_admin_senha_confirm"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-rocket"></i> Criar Conta
+                    </button>
+                </form>
+            </div>
+
+            <div class="register-footer">
+                Já tem uma conta? <a href="login.html">Faça login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Máscara CNPJ
+        document.getElementById('empresa_cnpj').addEventListener('input', function () {
+            let v = this.value.replace(/\D/g, '').substring(0, 14);
+            v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            v = v.replace(/(\d{4})(\d)/, '$1-$2');
+            this.value = v;
+        });
+
+        // Máscara telefone
+        document.getElementById('empresa_telefone').addEventListener('input', function () {
+            let v = this.value.replace(/\D/g, '').substring(0, 11);
+            if (v.length > 10) {
+                v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+            } else if (v.length > 6) {
+                v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            } else {
+                v = v.replace(/^(\d{0,2})/, '($1');
+            }
+            this.value = v;
+        });
+
+        // Força da senha
+        document.getElementById('admin_senha').addEventListener('input', function () {
+            const bar = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+            const val = this.value;
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            const colors = ['#ef4444', '#f97316', '#eab308', '#10b981'];
+            const labels = ['Fraca', 'Regular', 'Boa', 'Forte'];
+            if (val.length === 0) {
+                bar.style.width = '0%';
+                text.textContent = '';
+            } else {
+                bar.style.width = ((score / 4) * 100) + '%';
+                bar.style.background = colors[score - 1] || '#ef4444';
+                text.textContent = 'Força: ' + (labels[score - 1] || 'Muito fraca');
+            }
+        });
+
+        function togglePassword(fieldId, btn) {
+            const field = document.getElementById(fieldId);
+            const icon = btn.querySelector('i');
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function showAlert(message, type) {
+            const box = document.getElementById('alertBox');
+            box.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i><span>${message}</span>`;
+            box.className = `alert alert-${type} show`;
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function setFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const err = document.getElementById('err_' + fieldId);
+            if (field) field.classList.add('error');
+            if (err) { err.textContent = message; err.style.display = 'block'; }
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.form-control').forEach(f => f.classList.remove('error'));
+            document.querySelectorAll('.field-error').forEach(e => { e.textContent = ''; e.style.display = 'none'; });
+            const box = document.getElementById('alertBox');
+            box.className = 'alert';
+        }
+
+        function validate() {
+            let ok = true;
+            const fields = [
+                { id: 'empresa_nome', label: 'Razão Social' },
+                { id: 'empresa_nome_fantasia', label: 'Nome Fantasia' },
+                { id: 'empresa_cnpj', label: 'CNPJ' },
+                { id: 'empresa_email', label: 'Email da Empresa' },
+                { id: 'admin_nome', label: 'Nome do Administrador' },
+                { id: 'admin_email', label: 'Email de Acesso' },
+                { id: 'admin_senha', label: 'Senha' },
+                { id: 'admin_senha_confirm', label: 'Confirmação de Senha' },
+            ];
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                if (!el.value.trim()) {
+                    setFieldError(f.id, `${f.label} é obrigatório`);
+                    ok = false;
+                }
+            });
+
+            const cnpj = document.getElementById('empresa_cnpj').value.replace(/\D/g, '');
+            if (cnpj && cnpj.length !== 14) {
+                setFieldError('empresa_cnpj', 'CNPJ inválido (deve ter 14 dígitos)');
+                ok = false;
+            }
+
+            const senha = document.getElementById('admin_senha').value;
+            if (senha && senha.length < 8) {
+                setFieldError('admin_senha', 'A senha deve ter pelo menos 8 caracteres');
+                ok = false;
+            }
+
+            const senhaConfirm = document.getElementById('admin_senha_confirm').value;
+            if (senha && senhaConfirm && senha !== senhaConfirm) {
+                setFieldError('admin_senha_confirm', 'As senhas não conferem');
+                ok = false;
+            }
+
+            return ok;
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            clearErrors();
+
+            if (!validate()) return;
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner spin"></i> Criando conta...';
+
+            const payload = {
+                nome: document.getElementById('empresa_nome').value.trim(),
+                nome_fantasia: document.getElementById('empresa_nome_fantasia').value.trim(),
+                cnpj: document.getElementById('empresa_cnpj').value.trim(),
+                email: document.getElementById('empresa_email').value.trim(),
+                telefone: document.getElementById('empresa_telefone').value.trim(),
+                endereco: document.getElementById('empresa_endereco').value.trim(),
+                admin_nome: document.getElementById('admin_nome').value.trim(),
+                admin_email: document.getElementById('admin_email').value.trim(),
+                admin_senha: document.getElementById('admin_senha').value,
+            };
+
+            try {
+                const response = await fetch('/stockwave/api.php?endpoint=empresas&action=register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!data.error) {
+                    showAlert('Conta criada com sucesso! Redirecionando para o login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2500);
+                } else {
+                    showAlert(data.message || 'Erro ao criar conta. Tente novamente.', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showAlert('Erro de conexão. Verifique se o servidor está online.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-rocket"></i> Criar Conta';
+            }
+        });
+    </script>
+</body>
+</html>

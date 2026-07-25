@@ -1,0 +1,411 @@
+/*tables.css - Estilos de tabelas*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+th {
+    background-color: var(--primary);
+    color: var(--text-white);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Status badges */
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status.in-stock { background: rgba(40, 167, 69, 0.15); color: var(--success); }
+.status.low-stock { background: rgba(255, 193, 7, 0.15); color: var(--warning); }
+.status.critical-stock { background: rgba(220, 53, 69, 0.15); color: var(--danger); }
+.status.out-of-stock { background: rgba(108, 117, 125, 0.15); color: var(--gray); }
+
+/* Row highlighting */
+.low-stock-warning { background-color: rgba(255, 193, 7, 0.05); }
+.critical-stock-alert { background-color: rgba(220, 53, 69, 0.05); }
+.no-stock-alert { background-color: rgba(108, 117, 125, 0.05); }
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+/* Table Styles */
+.table-container {
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    overflow-x: auto;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--light-gray);
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px 15px 10px 40px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 30px;
+    width: 250px;
+    transition: var(--transition);
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    color: var(--text-light);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    background-color: var(--light-gray);
+}
+
+.pagination-btn {
+    padding: 8px 15px;
+    background-color: var(--white);
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pagination-btn:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+thead {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: var(--light-blue);
+}
+
+td {
+    padding: 12px 16px;
+    color: var(--text-dark);
+    font-size: 0.92rem;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.product-image i {
+    color: var(--primary-blue);
+    font-size: 1.4rem;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-name {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.product-code {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.in-stock {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: var(--success);
+}
+
+.status.low-stock {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: var(--warning);
+}
+
+.status.critical-stock {
+    background-color: rgba(156, 39, 176, 0.15);
+    color: var(--critical);
+}
+
+.status.out-of-stock {
+    background-color: rgba(244, 67, 54, 0.15);
+    color: var(--danger);
+}
+
+.action-cell {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+.action-btn:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+.action-btn.edit:hover {
+    background-color: var(--success);
+}
+
+.action-btn.delete:hover {
+    background-color: var(--danger);
+}
+
+
+/* Table Styles */
+.table-container {
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+thead {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: var(--light-blue);
+}
+
+td {
+    padding: 12px 16px;
+    color: var(--text-dark);
+    font-size: 0.92rem;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.product-image i {
+    color: var(--primary-blue);
+    font-size: 1.4rem;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-name {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.product-code {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.in-stock {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: var(--success);
+}
+
+.status.low-stock {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: var(--warning);
+}
+
+.status.out-of-stock {
+    background-color: rgba(244, 67, 54, 0.15);
+    color: var(--danger);
+}
+
+.action-cell {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+.action-btn:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+.action-btn.edit:hover {
+    background-color: var(--success);
+}
+
+.action-btn.delete:hover {
+    background-color: var(--danger);
+}
+
+

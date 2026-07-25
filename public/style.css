@@ -1,0 +1,19 @@
+/* 1. Variáveis e Temas Principais */
+@import url('css/themes.css');
+
+/* 2. Código Legado Base (Globais, Utilitários e Mobile Overrides) */
+@import url('css/legacy.css');
+
+/* 3. Layout (Cabeçalho e Rodapé) */
+@import url('css/layout.css');
+
+/* 4. Componentes Compartilhados (Tabelas e Modais Corrigidos) */
+@import url('css/tables.css');
+@import url('css/modals.css');
+
+/* 5. Páginas Específicas */
+@import url('css/dashboard.css');
+@import url('css/historico.css');
+@import url('css/estoque.css');
+@import url('css/produtos.css');
+@import url('css/configuracoes.css');

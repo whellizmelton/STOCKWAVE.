@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /stockwave/
+
+# API por path: /stockwave/api/produtos -> index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([^/]+)/?$ index.php [L,QSA]
